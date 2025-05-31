@@ -1,4 +1,4 @@
-﻿using MediatR;
+﻿using BuildingBlocks.CQRS;
 
 namespace Catalog.API.Products.CreateProduct
 {
@@ -7,7 +7,7 @@ namespace Catalog.API.Products.CreateProduct
 		List<string> Category,
 		string Description,
 		decimal Price,
-		string ImageFile) : IRequest<CreateProductResult>;
+		string ImageFile) : ICommand<CreateProductResult>;
 
 	public record CreateProductResult(
 		Guid Id,
@@ -17,7 +17,7 @@ namespace Catalog.API.Products.CreateProduct
 		decimal Price,
 		string ImageFile);
 
-	internal class CreateProductHandler : IRequestHandler<CreateProductCommand, CreateProductResult>
+	internal class CreateProductHandler : ICommandHandler<CreateProductCommand, CreateProductResult>
 	{
 		public Task<CreateProductResult> Handle(CreateProductCommand request, CancellationToken cancellationToken)
 		{

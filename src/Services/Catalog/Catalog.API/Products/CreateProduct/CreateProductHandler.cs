@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.CQRS;
+using Catalog.API.Models;
 
 namespace Catalog.API.Products.CreateProduct
 {
@@ -19,9 +20,36 @@ namespace Catalog.API.Products.CreateProduct
 
 	internal class CreateProductHandler : ICommandHandler<CreateProductCommand, CreateProductResult>
 	{
-		public Task<CreateProductResult> Handle(CreateProductCommand request, CancellationToken cancellationToken)
+		/// <summary>
+		/// Create Prduct entity from command object and return the result.
+		/// </summary>
+		/// <param name="command"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		public Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
 		{
-			throw new NotImplementedException();
+			// Here you would typically interact with a database or another service to create the product.
+			var productId = Guid.NewGuid(); // Simulating product creation and getting an ID
+			var result = new Product
+			{
+				Id = productId,
+				Name = command.Name,
+				Category = command.Category,
+				Description = command.Description,
+				Price = command.Price,
+				ImageFile = command.ImageFile
+			};
+
+			// Return the result as CreateProductResult
+			var createProductResult = new CreateProductResult(
+				result.Id,
+				result.Name,
+				result.Category,
+				result.Description,
+				result.Price,
+				result.ImageFile);
+
+			return Task.FromResult(createProductResult);
 		}
 	}
 }
